@@ -30,4 +30,14 @@ public class SaveAndGetBagTest {
         assertNotNull(returnedBag);
         assertSame(savedBag, returnedBag);
     }
+
+    @Test
+    void should_throw_with_message_if_no_ticket_provided() {
+        Cabinet cabinet = new Cabinet();
+        cabinet.save(new Bag());
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> cabinet.getBag(null),
+                "Please insert a ticket to get your bag.");
+    }
 }
