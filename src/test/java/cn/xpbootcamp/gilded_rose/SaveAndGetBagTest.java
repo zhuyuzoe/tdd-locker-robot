@@ -76,4 +76,17 @@ public class SaveAndGetBagTest {
 
         assertNotNull(ticket);
     }
+
+    @Test
+    void should_throw_if_cabinet_is_full() {
+        Cabinet cabinet = new Cabinet(1);
+        cabinet.save(new Bag());
+
+        String message = assertThrows(
+                RuntimeException.class,
+                () -> cabinet.save(new Bag())
+        ).getMessage();
+
+        assertEquals("Insufficient empty lockers.", message);
+    }
 }

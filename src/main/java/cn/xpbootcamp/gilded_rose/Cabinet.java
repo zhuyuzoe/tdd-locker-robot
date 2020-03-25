@@ -1,15 +1,19 @@
 package cn.xpbootcamp.gilded_rose;
 
 public class Cabinet {
-    private Locker locker = new Locker();
+    private Locker locker;
+    private final int capacity;
 
     public Cabinet(int capacity) {
+        this.capacity = capacity;
+        this.locker = new Locker(capacity);
     }
 
     public Ticket save(Bag bag) {
         if (bag == null) {
             throw new IllegalArgumentException("Please put a bag into the cabinet.");
         }
+
         Ticket ticket = new Ticket();
         locker.saveBagIntoLocker(bag, ticket);
         return ticket;
