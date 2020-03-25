@@ -40,4 +40,16 @@ public class SaveAndGetBagTest {
                 () -> cabinet.getBag(null),
                 "Please insert a ticket to get your bag.");
     }
+
+    @Test
+    void should_throw_with_message_if_ticket_is_invalid() {
+        Cabinet cabinet = new Cabinet();
+        cabinet.save(new Bag());
+
+        Ticket invalidTicket = new Ticket();
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            cabinet.getBag(invalidTicket);
+        }, "Please insert a valid ticket");
+    }
 }

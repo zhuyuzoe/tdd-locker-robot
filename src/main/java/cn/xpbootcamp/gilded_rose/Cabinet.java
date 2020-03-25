@@ -17,6 +17,10 @@ public class Cabinet {
         if (ticket == null) {
             throw new IllegalArgumentException("Please insert a ticket to get your bag.");
         }
-        return locker.getBagFromLocker(ticket);
+        if (locker.getLocker().containsKey(ticket)) {
+            return locker.getBagFromLocker(ticket);
+        }
+
+        throw new IllegalArgumentException("Please insert a valid ticket.");
     }
 }
