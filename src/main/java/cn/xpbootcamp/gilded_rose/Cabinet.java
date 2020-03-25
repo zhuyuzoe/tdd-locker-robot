@@ -3,6 +3,9 @@ package cn.xpbootcamp.gilded_rose;
 public class Cabinet {
     private Locker locker = new Locker();
 
+    public Cabinet(int capacity) {
+    }
+
     public Ticket save(Bag bag) {
         if (bag == null) {
             throw new IllegalArgumentException("Please put a bag into the cabinet.");
