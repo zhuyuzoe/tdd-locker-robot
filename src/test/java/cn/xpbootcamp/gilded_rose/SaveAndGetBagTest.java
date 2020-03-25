@@ -15,9 +15,10 @@ public class SaveAndGetBagTest {
     @Test
     void should_throw_with_message_when_put_nothing_in_the_cabinet() {
         Cabinet cabinet = new Cabinet();
-        assertThrows(IllegalArgumentException.class, () -> {
+        String message = assertThrows(IllegalArgumentException.class, () -> {
             cabinet.save(null);
-        }, "Please put a bag into the cabinet.");
+        }).getMessage();
+        assertEquals("Please put a bag into the cabinet.", message);
     }
 
     @Test
@@ -35,10 +36,10 @@ public class SaveAndGetBagTest {
     void should_throw_with_message_if_no_ticket_provided() {
         Cabinet cabinet = new Cabinet();
         cabinet.save(new Bag());
-        assertThrows(
+        String message = assertThrows(
                 IllegalArgumentException.class,
-                () -> cabinet.getBag(null),
-                "Please insert a ticket to get your bag.");
+                () -> cabinet.getBag(null)).getMessage();
+        assertEquals("Please insert a ticket to get your bag.", message);
     }
 
     @Test
@@ -48,8 +49,23 @@ public class SaveAndGetBagTest {
 
         Ticket invalidTicket = new Ticket();
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        String message = assertThrows(IllegalArgumentException.class, () -> {
             cabinet.getBag(invalidTicket);
-        }, "Please insert a valid ticket");
+        }).getMessage();
+
+        assertEquals("Please insert a valid ticket.", message);
+    }
+
+    @Test
+    void should_throw_with_message_if_ticket_is_invalid_since_is_used() {
+        Cabinet cabinet = new Cabinet();
+        Ticket usedTicket = cabinet.save(new Bag());
+        cabinet.getBag(usedTicket);
+
+        String message = assertThrows(IllegalArgumentException.class, () -> {
+            cabinet.getBag(usedTicket);
+        }).getMessage();
+
+        assertEquals("Please insert a valid ticket.", message);
     }
 }
