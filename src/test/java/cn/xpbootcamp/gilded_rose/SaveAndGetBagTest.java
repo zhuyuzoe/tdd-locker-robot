@@ -19,4 +19,15 @@ public class SaveAndGetBagTest {
             cabinet.save(null);
         }, "Please put a bag into the cabinet.");
     }
+
+    @Test
+    void should_get_corresponded_bag_given_ticket() {
+        Cabinet cabinet = new Cabinet();
+        Bag savedBag = new Bag();
+        Ticket ticket = cabinet.save(savedBag);
+        Bag returnedBag = cabinet.getBag(ticket);
+
+        assertNotNull(returnedBag);
+        assertSame(savedBag, returnedBag);
+    }
 }
