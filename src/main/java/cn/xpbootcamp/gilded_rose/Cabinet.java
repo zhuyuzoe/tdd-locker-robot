@@ -2,10 +2,11 @@ package cn.xpbootcamp.gilded_rose;
 
 public class Cabinet {
     private Locker locker;
-    private final int capacity;
 
     public Cabinet(int capacity) {
-        this.capacity = capacity;
+        if (capacity <= 0) {
+            throw new IllegalArgumentException();
+        }
         this.locker = new Locker(capacity);
     }
 

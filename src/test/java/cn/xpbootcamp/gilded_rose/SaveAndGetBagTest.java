@@ -89,4 +89,16 @@ public class SaveAndGetBagTest {
 
         assertEquals("Insufficient empty lockers.", message);
     }
+
+    @Test
+    void should_get_error_when_capacity_is_0() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new Cabinet(0));
+    }
+
+    @Test
+    void should_get_error_when_capacity_is_negative() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new Cabinet(-1));
+    }
 }
