@@ -48,4 +48,34 @@ public class RobotSaveAndGetBagTest {
         }).getMessage();
         assertEquals("Please insert a ticket to get your bag.", message);
     }
+
+    @Test
+    void should_get_error_message_with_invalid_ticket_for_robot_to_get_bag() {
+        Cabinet cabinet = createCabinetWithPlentyOfCapacity();
+        LockerRobot lockerRobot = new LockerRobot(cabinet);
+        Bag savedBag = new Bag();
+        lockerRobot.saveBag(savedBag);
+
+        Ticket invalidTicket = new Ticket();
+
+        String message = assertThrows(InvalidTicketException.class, () -> {
+            lockerRobot.getBag(invalidTicket);
+        }).getMessage();
+        assertEquals("Please insert a valid ticket.", message);
+    }
+
+    @Test
+    void should_get_error_message_with_used_ticket_for_robot_to_get_bag() {
+        Cabinet cabinet = createCabinetWithPlentyOfCapacity();
+        LockerRobot lockerRobot = new LockerRobot(cabinet);
+        Bag savedBag = new Bag();
+        Ticket usedTicket = lockerRobot.saveBag(savedBag);
+        cabinet.get(usedTicket);
+
+
+        String message = assertThrows(InvalidTicketException.class, () -> {
+            lockerRobot.getBag(usedTicket);
+        }).getMessage();
+        assertEquals("Please insert a valid ticket.", message);
+    }
 }
