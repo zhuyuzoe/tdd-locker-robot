@@ -1,11 +1,16 @@
 package cn.xpbootcamp.gilded_rose;
+import cn.xpbootcamp.gilded_rose.exception.InsufficientLockersException;
 import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 import org.junit.jupiter.api.Test;
 
+import static cn.xpbootcamp.gilded_rose.CabinetFactory.createCabinetWithFullLockers;
 import static cn.xpbootcamp.gilded_rose.CabinetFactory.createCabinetWithPlentyOfCapacity;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RobotSaveAndGetBagTest {
+
+    private final int CABINET_DEFAULT_CAPACITY = 10;
+
     @Test
     void should_get_the_ticket_when_the_robot_help_to_save_bag_into_locker() {
         Cabinet cabinet = createCabinetWithPlentyOfCapacity();
@@ -77,5 +82,17 @@ public class RobotSaveAndGetBagTest {
             lockerRobot.getBag(usedTicket);
         }).getMessage();
         assertEquals("Please insert a valid ticket.", message);
+    }
+
+    @Test
+    void should_throw_if_cabinet_lockers_are_full() {
+        Cabinet fullCabinet = createCabinetWithFullLockers(CABINET_DEFAULT_CAPACITY);
+        Bag savedBag = new Bag();
+        LockerRobot lockerRobot = new LockerRobot(fullCabinet);
+
+        InsufficientLockersException error = assertThrows(
+                InsufficientLockersException.class,
+                () ->  lockerRobot.saveBag(savedBag));
+        assertEquals("Insufficient empty lockers.", error.getMessage());
     }
 }
