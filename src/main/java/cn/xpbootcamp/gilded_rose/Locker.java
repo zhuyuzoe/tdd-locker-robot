@@ -7,6 +7,8 @@ import java.util.HashMap;
 public class Locker {
     private int capacity;
 
+    private HashMap<Ticket, Bag> locker = new HashMap<>();
+
     Locker(int capacity) {
         if (capacity <= 0) {
             throw new IllegalArgumentException();
@@ -17,8 +19,6 @@ public class Locker {
     public HashMap<Ticket, Bag> getLocker() {
         return locker;
     }
-
-    private HashMap<Ticket, Bag> locker = new HashMap<>();
 
     public void saveBagIntoLocker(Bag bag, Ticket ticket) {
         if (isLockerFull()) {

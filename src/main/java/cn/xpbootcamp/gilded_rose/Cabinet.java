@@ -1,25 +1,22 @@
 package cn.xpbootcamp.gilded_rose;
 
 import cn.xpbootcamp.gilded_rose.exception.InsufficientLockersException;
+import cn.xpbootcamp.gilded_rose.exception.InvalidBagException;
 import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class Cabinet {
     private int lockerOrderIndex;
+    private List<Locker> lockers;
 
     public Cabinet(List<Locker> lockers) {
         this.lockers = lockers;
     }
 
-    private List<Locker> lockers = new ArrayList<>();
-
     public Ticket save(Bag bag) {
-        if (bag == null) {
-            throw new IllegalArgumentException("Please put a bag into the cabinet.");
-        }
+        validateBag(bag);
 
         Ticket ticket = new Ticket();
 
@@ -34,20 +31,30 @@ public class Cabinet {
         return ticket;
     }
 
-    private Optional<Locker> getFirstEmptyLocker() {
-        return lockers.stream().filter(locker -> !locker.isLockerFull()).findFirst();
-    }
-
-
     public Bag get(Ticket ticket) {
-        if (ticket == null) {
-            throw new InvalidTicketException("Please insert a ticket to get your bag.");
-        }
+        validateTicket(ticket);
+
         if (lockers.get(lockerOrderIndex).getLocker().containsKey(ticket)) {
             return lockers.get(lockerOrderIndex).getBagFromLocker(ticket);
         }
 
         throw new InvalidTicketException("Please insert a valid ticket.");
+    }
+
+    private void validateTicket(Ticket ticket) {
+        if (ticket == null) {
+            throw new InvalidTicketException("Please insert a ticket to get your bag.");
+        }
+    }
+
+    private void validateBag(Bag bag) {
+        if (bag == null) {
+            throw new InvalidBagException("Please put a bag into the cabinet.");
+        }
+    }
+
+    private Optional<Locker> getFirstEmptyLocker() {
+        return lockers.stream().filter(locker -> !locker.isLockerFull()).findFirst();
     }
 
     public Locker getLockerWithOrder(int order) {

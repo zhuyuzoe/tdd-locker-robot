@@ -7,8 +7,6 @@ public class LockerRobot {
         this.cabinet = cabinet;
     }
 
-    public LockerRobot() {}
-
     public Ticket saveBag(Bag bag) {
         return  cabinet.save(bag);
     }

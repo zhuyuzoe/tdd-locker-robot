@@ -1,5 +1,6 @@
 package cn.xpbootcamp.gilded_rose;
 import cn.xpbootcamp.gilded_rose.exception.InsufficientLockersException;
+import cn.xpbootcamp.gilded_rose.exception.InvalidBagException;
 import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +29,7 @@ public class RobotSaveAndGetBagTest {
     void should_get_error_message_when_the_robot_help_to_save_nothing_into_locker() {
         Cabinet cabinet = createCabinetWithLockersOfPlentyOfCapacity(1);
         LockerRobot lockerRobot = new LockerRobot(cabinet);
-        String message = assertThrows(IllegalArgumentException.class, () -> {
+        String message = assertThrows(InvalidBagException.class, () -> {
             lockerRobot.saveBag(null);
         }).getMessage();
         assertEquals("Please put a bag into the cabinet.", message);
