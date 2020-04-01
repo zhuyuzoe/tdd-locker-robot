@@ -6,7 +6,7 @@ AC1
 AC2
 1. Given a cabinet and a corresponded ticket, I should get the bag that I saved.
 2. Given a cabinet and no ticket, I should get an error message "Please insert a ticket to get your bag".
-3. Given a cabinet and a invalid ticket, I should get an error message "Pleas insert a valid ticket".
+3. Given a cabinet and a invalid ticket, I should get an error message "Please insert a valid ticket".
 
 STORY 2
 AC1
