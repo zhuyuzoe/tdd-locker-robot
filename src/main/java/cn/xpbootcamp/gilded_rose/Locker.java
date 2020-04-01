@@ -1,5 +1,7 @@
 package cn.xpbootcamp.gilded_rose;
 
+import cn.xpbootcamp.gilded_rose.exception.InsufficientLockersException;
+
 import java.util.HashMap;
 
 public class Locker {
