@@ -1,4 +1,5 @@
 package cn.xpbootcamp.gilded_rose;
+import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 import org.junit.jupiter.api.Test;
 
 import static cn.xpbootcamp.gilded_rose.CabinetFactory.createCabinetWithPlentyOfCapacity;
@@ -33,6 +34,18 @@ public class RobotSaveAndGetBagTest {
 
         Bag fetchedBag = lockerRobot.getBag(ticket);
         assertSame(savedBag, fetchedBag);
+    }
 
+    @Test
+    void should_get_error_message_without_ticket_for_robot_to_get_bag() {
+        Cabinet cabinet = createCabinetWithPlentyOfCapacity();
+        LockerRobot lockerRobot = new LockerRobot(cabinet);
+        Bag savedBag = new Bag();
+        lockerRobot.saveBag(savedBag);
+
+        String message = assertThrows(InvalidTicketException.class, () -> {
+            lockerRobot.getBag(null);
+        }).getMessage();
+        assertEquals("Please insert a ticket to get your bag.", message);
     }
 }

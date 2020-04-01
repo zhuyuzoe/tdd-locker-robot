@@ -1,5 +1,7 @@
 package cn.xpbootcamp.gilded_rose;
 
+import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
+
 public class Cabinet {
     private Locker locker;
 
@@ -23,12 +25,12 @@ public class Cabinet {
 
     public Bag get(Ticket ticket) {
         if (ticket == null) {
-            throw new IllegalArgumentException("Please insert a ticket to get your bag.");
+            throw new InvalidTicketException("Please insert a ticket to get your bag.");
         }
         if (locker.getLocker().containsKey(ticket)) {
             return locker.getBagFromLocker(ticket);
         }
 
-        throw new IllegalArgumentException("Please insert a valid ticket.");
+        throw new InvalidTicketException("Please insert a valid ticket.");
     }
 }

@@ -1,6 +1,7 @@
 package cn.xpbootcamp.gilded_rose;
 
 import cn.xpbootcamp.gilded_rose.exception.InsufficientLockersException;
+import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,7 +39,7 @@ public class SaveAndGetBagTest {
         Cabinet cabinet = new Cabinet(Integer.MAX_VALUE);
         cabinet.save(new Bag());
         String message = assertThrows(
-                IllegalArgumentException.class,
+                InvalidTicketException.class,
                 () -> cabinet.get(null)).getMessage();
         assertEquals("Please insert a ticket to get your bag.", message);
     }
@@ -50,7 +51,7 @@ public class SaveAndGetBagTest {
 
         Ticket invalidTicket = new Ticket();
 
-        String message = assertThrows(IllegalArgumentException.class, () -> {
+        String message = assertThrows(InvalidTicketException.class, () -> {
             cabinet.get(invalidTicket);
         }).getMessage();
 
@@ -63,7 +64,7 @@ public class SaveAndGetBagTest {
         Ticket usedTicket = cabinet.save(new Bag());
         cabinet.get(usedTicket);
 
-        String message = assertThrows(IllegalArgumentException.class, () -> {
+        String message = assertThrows(InvalidTicketException.class, () -> {
             cabinet.get(usedTicket);
         }).getMessage();
 
