@@ -1,16 +1,20 @@
 package cn.xpbootcamp.gilded_rose;
 
+import cn.xpbootcamp.gilded_rose.exception.InsufficientLockersException;
 import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 
-public class Cabinet {
-    private Locker locker;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-    public Cabinet(int capacity) {
-        if (capacity <= 0) {
-            throw new IllegalArgumentException();
-        }
-        this.locker = new Locker(capacity);
+public class Cabinet {
+    private int lockerOrderIndex;
+
+    public Cabinet(List<Locker> lockers) {
+        this.lockers = lockers;
     }
+
+    private List<Locker> lockers = new ArrayList<>();
 
     public Ticket save(Bag bag) {
         if (bag == null) {
@@ -18,8 +22,20 @@ public class Cabinet {
         }
 
         Ticket ticket = new Ticket();
-        locker.saveBagIntoLocker(bag, ticket);
+
+        Optional<Locker> firstEmptyLocker = getFirstEmptyLocker();
+        if (!firstEmptyLocker.isPresent()) {
+            throw new InsufficientLockersException("Insufficient empty lockers.");
+        }
+
+        lockerOrderIndex = lockers.indexOf(firstEmptyLocker.get());
+        firstEmptyLocker.get().saveBagIntoLocker(bag, ticket);
+
         return ticket;
+    }
+
+    private Optional<Locker> getFirstEmptyLocker() {
+        return lockers.stream().filter(locker -> !locker.isLockerFull()).findFirst();
     }
 
 
@@ -27,10 +43,14 @@ public class Cabinet {
         if (ticket == null) {
             throw new InvalidTicketException("Please insert a ticket to get your bag.");
         }
-        if (locker.getLocker().containsKey(ticket)) {
-            return locker.getBagFromLocker(ticket);
+        if (lockers.get(lockerOrderIndex).getLocker().containsKey(ticket)) {
+            return lockers.get(lockerOrderIndex).getBagFromLocker(ticket);
         }
 
         throw new InvalidTicketException("Please insert a valid ticket.");
+    }
+
+    public Locker getLockerWithOrder(int order) {
+        return lockers.get(order - 1);
     }
 }

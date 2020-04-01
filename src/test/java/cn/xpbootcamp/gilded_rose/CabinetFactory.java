@@ -1,18 +1,27 @@
 package cn.xpbootcamp.gilded_rose;
 
+import java.util.ArrayList;
+import java.util.List;
 
 class CabinetFactory {
-    static Cabinet createCabinetWithPlentyOfCapacity() {
-        return new Cabinet(Integer.MAX_VALUE);
+
+    static Cabinet createCabinetWithLockersOfPlentyOfCapacity(int numberOfLockers) {
+        List<Locker> lockers = new ArrayList<>();
+        for (int i = 0; i < numberOfLockers; i++) {
+            lockers.add(createEmptyLocker());
+        }
+        return new Cabinet(lockers);
     }
 
-    static Cabinet createCabinetWithFullLockers(int defaultCapacity) {
+    static Locker createEmptyLocker() {
+        return new Locker(Integer.MAX_VALUE);
+    }
 
-        Cabinet cabinet = new Cabinet(defaultCapacity);
+    static Locker createFullLocker(int defaultCapacity) {
+        Locker locker = new Locker(defaultCapacity);
         for (int i = 0; i < defaultCapacity; i++) {
-            cabinet.save(new Bag());
+            locker.saveBagIntoLocker(new Bag(), new Ticket());
         }
-
-        return cabinet;
+        return locker;
     }
 }
