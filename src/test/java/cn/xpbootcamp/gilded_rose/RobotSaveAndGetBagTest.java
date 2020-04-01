@@ -119,6 +119,27 @@ public class RobotSaveAndGetBagTest {
     void should_get_ticket_from_second_locker_when_cabinet_with_first_locker_full_and_second_empty() {
         List<Locker> lockers = new ArrayList<>();
         Locker firstFullLocker = createFullLocker(CABINET_DEFAULT_CAPACITY);
+        Locker secondEmptyLocker = createEmptyLocker();
+
+        lockers.add(firstFullLocker);
+        lockers.add(secondEmptyLocker);
+
+        Cabinet cabinet = new Cabinet(lockers);
+        Bag savedBag = new Bag();
+
+        LockerRobot lockerRobot = new LockerRobot(cabinet);
+        Ticket ticket = lockerRobot.saveBag(savedBag);
+
+        Locker secondLocker = cabinet.getLockerWithOrder(2);
+        Bag fetchedBag = secondLocker.getBagFromLocker(ticket);
+        assertSame(savedBag, fetchedBag);
+
+    }
+
+    @Test
+    void should_get_error_message_when_two_lockers_are_full() {
+        List<Locker> lockers = new ArrayList<>();
+        Locker firstFullLocker = createFullLocker(CABINET_DEFAULT_CAPACITY);
         Locker secondFullLocker = createFullLocker(CABINET_DEFAULT_CAPACITY + 1);
 
         lockers.add(firstFullLocker);
