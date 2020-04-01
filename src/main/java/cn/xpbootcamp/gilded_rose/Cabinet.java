@@ -21,7 +21,7 @@ public class Cabinet {
     }
 
 
-    public Bag getBag(Ticket ticket) {
+    public Bag get(Ticket ticket) {
         if (ticket == null) {
             throw new IllegalArgumentException("Please insert a ticket to get your bag.");
         }

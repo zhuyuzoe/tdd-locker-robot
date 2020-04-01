@@ -26,7 +26,7 @@ public class SaveAndGetBagTest {
         Cabinet cabinet = new Cabinet(Integer.MAX_VALUE);
         Bag savedBag = new Bag();
         Ticket ticket = cabinet.save(savedBag);
-        Bag returnedBag = cabinet.getBag(ticket);
+        Bag returnedBag = cabinet.get(ticket);
 
         assertNotNull(returnedBag);
         assertSame(savedBag, returnedBag);
@@ -38,7 +38,7 @@ public class SaveAndGetBagTest {
         cabinet.save(new Bag());
         String message = assertThrows(
                 IllegalArgumentException.class,
-                () -> cabinet.getBag(null)).getMessage();
+                () -> cabinet.get(null)).getMessage();
         assertEquals("Please insert a ticket to get your bag.", message);
     }
 
@@ -50,7 +50,7 @@ public class SaveAndGetBagTest {
         Ticket invalidTicket = new Ticket();
 
         String message = assertThrows(IllegalArgumentException.class, () -> {
-            cabinet.getBag(invalidTicket);
+            cabinet.get(invalidTicket);
         }).getMessage();
 
         assertEquals("Please insert a valid ticket.", message);
@@ -60,10 +60,10 @@ public class SaveAndGetBagTest {
     void should_throw_with_message_if_ticket_is_invalid_since_is_used() {
         Cabinet cabinet = new Cabinet(Integer.MAX_VALUE);
         Ticket usedTicket = cabinet.save(new Bag());
-        cabinet.getBag(usedTicket);
+        cabinet.get(usedTicket);
 
         String message = assertThrows(IllegalArgumentException.class, () -> {
-            cabinet.getBag(usedTicket);
+            cabinet.get(usedTicket);
         }).getMessage();
 
         assertEquals("Please insert a valid ticket.", message);
