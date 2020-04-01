@@ -10,7 +10,10 @@ public class LockerRobot {
     public LockerRobot() {}
 
     public Ticket saveBag(Bag bag) {
-
         return  cabinet.save(bag);
+    }
+
+    public Bag getBag(Ticket ticket) {
+        return cabinet.get(ticket);
     }
 }

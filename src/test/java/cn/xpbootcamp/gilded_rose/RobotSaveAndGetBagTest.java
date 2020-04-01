@@ -23,4 +23,16 @@ public class RobotSaveAndGetBagTest {
         }).getMessage();
         assertEquals("Please put a bag into the cabinet.", message);
     }
+
+    @Test
+    void should_get_corresponded_bag_when_give_right_ticket_to_the_robot() {
+        Cabinet cabinet = createCabinetWithPlentyOfCapacity();
+        LockerRobot lockerRobot = new LockerRobot(cabinet);
+        Bag savedBag = new Bag();
+        Ticket ticket = lockerRobot.saveBag(savedBag);
+
+        Bag fetchedBag = lockerRobot.getBag(ticket);
+        assertSame(savedBag, fetchedBag);
+
+    }
 }
