@@ -17,7 +17,7 @@ public class Locker {
 
     public void saveBagIntoLocker(Bag bag, Ticket ticket) {
         if (locker.size() >= capacity) {
-            throw new RuntimeException("Insufficient empty lockers.");
+            throw new InsufficientLockersException("Insufficient empty lockers.");
         }
         locker.put(ticket, bag);
     }

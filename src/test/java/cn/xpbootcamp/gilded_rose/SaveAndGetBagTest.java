@@ -83,7 +83,7 @@ public class SaveAndGetBagTest {
         cabinet.save(new Bag());
 
         String message = assertThrows(
-                RuntimeException.class,
+                InsufficientLockersException.class,
                 () -> cabinet.save(new Bag())
         ).getMessage();
 
