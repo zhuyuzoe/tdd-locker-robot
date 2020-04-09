@@ -24,8 +24,7 @@ public class Cabinet {
         if (!firstEmptyLocker.isPresent()) {
             throw new InsufficientLockersException("Insufficient empty lockers.");
         }
-        int maxCapacity = lockers.stream().map(locker -> locker.leftCapacity()).mapToInt(capacity -> capacity).max().getAsInt();
-        Optional<Locker> savedLocker = lockers.stream().filter(locker -> locker.leftCapacity() == maxCapacity).findFirst();
+        Optional<Locker> savedLocker = getLockerWithMaxCapacityLeftInOrder();
         lockerOrderIndex = lockers.indexOf(savedLocker.get());
         savedLocker.get().saveBagIntoLocker(bag, ticket);
 
@@ -60,5 +59,10 @@ public class Cabinet {
 
     public Locker getLockerWithOrder(int order) {
         return lockers.get(order - 1);
+    }
+
+    private Optional<Locker> getLockerWithMaxCapacityLeftInOrder() {
+        int maxCapacity = lockers.stream().map(locker -> locker.leftCapacity()).mapToInt(capacity -> capacity).max().getAsInt();
+        return lockers.stream().filter(locker -> locker.leftCapacity() == maxCapacity).findFirst();
     }
 }
