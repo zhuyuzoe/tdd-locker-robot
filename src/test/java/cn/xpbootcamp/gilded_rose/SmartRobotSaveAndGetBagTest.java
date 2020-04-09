@@ -1,12 +1,15 @@
 package cn.xpbootcamp.gilded_rose;
 
+import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import static cn.xpbootcamp.gilded_rose.CabinetFactory.createCabinetWithLockersOfCapacityLeft;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SmartRobotSaveAndGetBagTest {
 
@@ -113,5 +116,22 @@ public class SmartRobotSaveAndGetBagTest {
         // Then
         Bag fetchedBag = lockerRobot.getBag(ticket);
         assertSame(savedBag, fetchedBag);
+    }
+
+    @Test
+    void should_get_invalid_ticket_error_when_robot_save_bag_into_cabinet_with_first_locker_of_3_capacity_left_and_second_of_2_successfully_and_give_robot_no_ticket() {
+        // Given
+        Cabinet cabinet = createCabinetWithLockersOfCapacityLeft(new ArrayList<>(Arrays.asList(3, 2)));
+        Bag savedBag = new Bag();
+        LockerRobot lockerRobot = new LockerRobot(cabinet);
+
+        // When
+        Ticket ticket = lockerRobot.saveBag(savedBag);
+
+        // Then
+        String message = assertThrows(InvalidTicketException.class, () -> {
+            lockerRobot.getBag(null);
+        }).getMessage();
+        assertEquals("Please insert a ticket to get your bag.", message);
     }
 }
