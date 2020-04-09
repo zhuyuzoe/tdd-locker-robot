@@ -152,4 +152,19 @@ public class SmartRobotSaveAndGetBagTest {
         }).getMessage();
         assertEquals("Please insert a valid ticket.", message);
     }
+
+    @Test
+    void should_get_corresponded_bag_when_robot_save_bag_into_cabinet_with_first_locker_of_2_capacity_left_and_second_third_of_3_successfully_and_give_robot_corresponded_ticket() {
+        // Given
+        Cabinet cabinet = createCabinetWithLockersOfCapacityLeft(new ArrayList<>(Arrays.asList(2, 3, 3)));
+        Bag savedBag = new Bag();
+        LockerRobot lockerRobot = new LockerRobot(cabinet);
+
+        // When
+        Ticket ticket = lockerRobot.saveBag(savedBag);
+
+        // Then
+        Bag fetchedBag = lockerRobot.getBag(ticket);
+        assertSame(savedBag, fetchedBag);
+    }
 }
