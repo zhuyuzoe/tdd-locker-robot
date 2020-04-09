@@ -84,4 +84,19 @@ public class SmartRobotSaveAndGetBagTest {
         Bag fetchedBag = cabinet.getLockerWithOrder(2).getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
     }
+
+    @Test
+    void should_get_ticket_from_first_locker_when_cabinet_with_three_lockers_are_of_2_2_2_capacity_left_in_order() {
+        // Given
+        Cabinet cabinet = createCabinetWithLockersOfCapacityLeft(new ArrayList<>(Arrays.asList(2, 2, 2)));
+        Bag savedBag = new Bag();
+        LockerRobot lockerRobot = new LockerRobot(cabinet);
+
+        // When
+        Ticket ticket = lockerRobot.saveBag(savedBag);
+
+        // Then
+        Bag fetchedBag = cabinet.getLockerWithOrder(1).getBagFromLocker(ticket);
+        assertSame(savedBag, fetchedBag);
+    }
 }
