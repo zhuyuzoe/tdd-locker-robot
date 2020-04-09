@@ -35,4 +35,11 @@ class CabinetFactory {
         }
         return locker;
     }
+
+    static Cabinet createCabinetWithLockersOfCapacityLeft(ArrayList<Integer> leftCapacity) {
+        List<Locker> lockers = new ArrayList<>();
+        leftCapacity.forEach(capacity -> lockers.add(createLockerWithSomeCapacityLeft(capacity)));
+
+        return new Cabinet(lockers);
+    }
 }
