@@ -17,18 +17,22 @@ public class Cabinet {
 
     public Ticket save(Bag bag) {
         validateBag(bag);
+        validateCabinetLeftCapacity();
+
+        Optional<Locker> savedLocker = getLockerWithMaxCapacityLeftInOrder();
+        lockerOrderIndex = lockers.indexOf(savedLocker.get());
 
         Ticket ticket = new Ticket();
+        savedLocker.get().saveBagIntoLocker(bag, ticket);
 
+        return ticket;
+    }
+
+    private void validateCabinetLeftCapacity() {
         Optional<Locker> firstEmptyLocker = getFirstEmptyLocker();
         if (!firstEmptyLocker.isPresent()) {
             throw new InsufficientLockersException("Insufficient empty lockers.");
         }
-        Optional<Locker> savedLocker = getLockerWithMaxCapacityLeftInOrder();
-        lockerOrderIndex = lockers.indexOf(savedLocker.get());
-        savedLocker.get().saveBagIntoLocker(bag, ticket);
-
-        return ticket;
     }
 
     public Bag get(Ticket ticket) {
