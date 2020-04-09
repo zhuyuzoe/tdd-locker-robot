@@ -31,6 +31,10 @@ public class Locker {
         return locker.size() >= capacity;
     }
 
+    public int leftCapacity() {
+        return isLockerFull() ? 0 : capacity - locker.size();
+    }
+
     Bag getBagFromLocker(Ticket ticket) {
         return locker.remove(ticket);
     }
