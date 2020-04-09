@@ -20,6 +20,6 @@ Story 4:
 
 AC1:
 
-1. Given two empty cabinets, when ask the robot to save the bag, should get the ticket from the first one
-2. Given two cabinets with first one full, when ask the robot to save the bag, should get the ticket from the second one
-3. Given two cabinets both full, when ask the robot to save the bag, should get error message "Insufficient empty lockers."
+1. Given a cabinet with two empty lockers(the capacity left from two lockers are equal), when ask the robot to save the bag, should get the ticket from the first one
+2. Given a cabinet with two empty lockers and the first one full, when ask the robot to save the bag, should get the ticket from the second one
+3. Given a cabinet with two empty lockers both full, when ask the robot to save the bag, should get error message "Insufficient empty lockers."
