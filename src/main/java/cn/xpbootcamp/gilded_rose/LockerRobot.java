@@ -20,9 +20,9 @@ public class LockerRobot {
         validateCabinetLeftCapacity();
 
         Optional<Locker> savedLocker = getLockerWithMaxCapacityLeftInOrder(this.lockers);
-        lockerOrderIndex = lockers.indexOf(savedLocker.get());
+        lockerOrderIndex = lockers.indexOf(lockers.size() == 1 ? lockers.get(0) : savedLocker.get());
 
-        Ticket ticket = savedLocker.get().saveBagIntoLocker(bag);
+        Ticket ticket = lockers.size() == 1 ? lockers.get(0).saveBagIntoLocker(bag) : savedLocker.get().saveBagIntoLocker(bag);
 
         return ticket;
     }

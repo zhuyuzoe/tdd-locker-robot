@@ -40,6 +40,10 @@ public class Locker {
         return isLockerFull() ? 0 : capacity - locker.size();
     }
 
+    public double leftCapacityPercentage() {
+        return isLockerFull() ? 0 : ((capacity - locker.size()) / (double) capacity);
+    }
+
     Bag getBagFromLocker(Ticket ticket) {
         validateTicket(ticket);
         if (locker.containsKey(ticket)) {

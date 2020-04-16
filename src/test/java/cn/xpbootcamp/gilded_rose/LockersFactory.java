@@ -36,6 +36,16 @@ class LockersFactory {
         return locker;
     }
 
+    static Locker createSpecificSizeLockerWithSomeCapacityLeft(int totalCapacity, int leftCapacity) {
+        Locker locker = new Locker(totalCapacity);
+        int savedCapacity = 0;
+        while (leftCapacity < totalCapacity - savedCapacity) {
+            locker.saveBagIntoLocker(new Bag());
+            savedCapacity++;
+        }
+        return locker;
+    }
+
     static List<Locker> createLockersOfCapacityLeft(ArrayList<Integer> leftCapacity) {
         List<Locker> lockers = new ArrayList<>();
         leftCapacity.forEach(capacity -> lockers.add(createLockerWithSomeCapacityLeft(capacity)));

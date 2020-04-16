@@ -9,8 +9,9 @@ import java.util.List;
 
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createFullLocker;
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createLockersOfPlentyOfCapacity;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static cn.xpbootcamp.gilded_rose.LockersFactory.createSpecificSizeLockerWithSomeCapacityLeft;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SuperLockerTest {
@@ -32,7 +33,7 @@ public class SuperLockerTest {
         Bag bag = new Bag();
         SuperLockerRobot superLockerRobot = new SuperLockerRobot(lockers);
         assertThrows(InsufficientLockersException.class,
-                () ->  superLockerRobot.saveBag(bag));
+                () -> superLockerRobot.saveBag(bag));
     }
 
     @Test
@@ -42,5 +43,28 @@ public class SuperLockerTest {
         assertThrows(InvalidBagException.class, () -> {
             superLockerRobot.saveBag(null);
         }).getMessage();
+    }
+
+    @Test
+    void should_get_ticket_from_third_locker_when_cabinet_with_three_lockers_are_of_10_20_30_percentage_capacity_left_in_order() {
+        // Given
+        List<Locker> lockers = new ArrayList<>();
+
+        Locker tenPercentCapacityLeft = createSpecificSizeLockerWithSomeCapacityLeft(1000, 100);
+        Locker twentyPercentCapacityLeft = createSpecificSizeLockerWithSomeCapacityLeft(100, 20);
+        Locker thirtyPercentCapacityLeft = createSpecificSizeLockerWithSomeCapacityLeft(10, 3);
+        lockers.add(tenPercentCapacityLeft);
+        lockers.add(twentyPercentCapacityLeft);
+        lockers.add(thirtyPercentCapacityLeft);
+
+        Bag savedBag = new Bag();
+        SuperLockerRobot lockerRobot = new SuperLockerRobot(lockers);
+
+        // When
+        Ticket ticket = lockerRobot.saveBag(savedBag);
+
+        // Then
+        Bag fetchedBag = lockerRobot.getLockerWithOrder(3).getBagFromLocker(ticket);
+        assertSame(savedBag, fetchedBag);
     }
 }
