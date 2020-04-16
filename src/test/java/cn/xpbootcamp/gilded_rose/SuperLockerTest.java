@@ -46,7 +46,7 @@ public class SuperLockerTest {
     }
 
     @Test
-    void should_get_ticket_from_third_locker_when_cabinet_with_three_lockers_are_of_10_20_30_percentage_capacity_left_in_order() {
+    void should_get_ticket_from_third_locker_when_three_lockers_are_of_10_20_30_percentage_capacity_left_in_order() {
         // Given
         List<Locker> lockers = new ArrayList<>();
 
@@ -65,6 +65,29 @@ public class SuperLockerTest {
 
         // Then
         Bag fetchedBag = lockerRobot.getLockerWithOrder(3).getBagFromLocker(ticket);
+        assertSame(savedBag, fetchedBag);
+    }
+
+    @Test
+    void should_get_ticket_from_second_locker_when_three_lockers_are_of_20_30_30_percentage_capacity_left_in_order() {
+        // Given
+        List<Locker> lockers = new ArrayList<>();
+
+        Locker tenPercentCapacityLeft = createSpecificSizeLockerWithSomeCapacityLeft(100, 20);
+        Locker twentyPercentCapacityLeft = createSpecificSizeLockerWithSomeCapacityLeft(10, 3);
+        Locker thirtyPercentCapacityLeft = createSpecificSizeLockerWithSomeCapacityLeft(10, 3);
+        lockers.add(tenPercentCapacityLeft);
+        lockers.add(twentyPercentCapacityLeft);
+        lockers.add(thirtyPercentCapacityLeft);
+
+        Bag savedBag = new Bag();
+        SuperLockerRobot lockerRobot = new SuperLockerRobot(lockers);
+
+        // When
+        Ticket ticket = lockerRobot.saveBag(savedBag);
+
+        // Then
+        Bag fetchedBag = lockerRobot.getLockerWithOrder(2).getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
     }
 }
