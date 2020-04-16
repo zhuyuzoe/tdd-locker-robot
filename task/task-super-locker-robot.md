@@ -30,5 +30,6 @@ Get Bag From One Locker:
       
 Get Bag From Three Lockers: 
    
-1. Given a cabinet with two lockers, the first is of 20% capacity left, second is of 30% and third is of 30%, and the super robot to save the bag successfully,
+1. Given a cabinet with three lockers, the first is of 20% capacity left, second is of 30% and third is of 30%, 
+   and the super robot to save the bag successfully,
    when give the corresponded ticket to the super robot, should get the saved bag
