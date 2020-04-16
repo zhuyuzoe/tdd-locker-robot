@@ -1,6 +1,7 @@
 package cn.xpbootcamp.gilded_rose;
 
 import cn.xpbootcamp.gilded_rose.exception.InsufficientLockersException;
+import cn.xpbootcamp.gilded_rose.exception.InvalidBagException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -34,4 +35,12 @@ public class SuperLockerTest {
                 () ->  superLockerRobot.saveBag(bag));
     }
 
+    @Test
+    void should_throw_invalid_bag_exception_when_super_robot_help_to_save_nothing_into_locker() {
+        List<Locker> lockersOfPlentyOfCapacity = createLockersOfPlentyOfCapacity(1);
+        SuperLockerRobot superLockerRobot = new SuperLockerRobot(lockersOfPlentyOfCapacity);
+        assertThrows(InvalidBagException.class, () -> {
+            superLockerRobot.saveBag(null);
+        }).getMessage();
+    }
 }
