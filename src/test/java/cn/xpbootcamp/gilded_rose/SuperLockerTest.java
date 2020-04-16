@@ -113,4 +113,15 @@ public class SuperLockerTest {
         Bag fetchedBag = lockerRobot.getLockerWithOrder(1).getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
     }
+
+    @Test
+    void should_get_corresponded_bag_when_give_right_ticket_to_the_robot() {
+        List<Locker> lockersOfPlentyOfCapacity = createLockersOfPlentyOfCapacity(1);
+        SuperLockerRobot lockerRobot = new SuperLockerRobot(lockersOfPlentyOfCapacity);
+        Bag savedBag = new Bag();
+        Ticket ticket = lockerRobot.saveBag(savedBag);
+
+        Bag fetchedBag = lockerRobot.getBag(ticket);
+        assertSame(savedBag, fetchedBag);
+    }
 }
