@@ -2,6 +2,7 @@ package cn.xpbootcamp.gilded_rose;
 
 import cn.xpbootcamp.gilded_rose.exception.InsufficientLockersException;
 import cn.xpbootcamp.gilded_rose.exception.InvalidBagException;
+import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createFullLocker;
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createLockersOfPlentyOfCapacity;
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createSpecificSizeLockerWithSomeCapacityLeft;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -123,5 +125,31 @@ public class SuperLockerTest {
 
         Bag fetchedBag = lockerRobot.getBag(ticket);
         assertSame(savedBag, fetchedBag);
+    }
+
+    @Test
+    void should_throw_invalid_ticket_exception_without_ticket_for_super_robot_to_get_bag() {
+        List<Locker> lockersOfPlentyOfCapacity = createLockersOfPlentyOfCapacity(1);
+        SuperLockerRobot lockerRobot = new SuperLockerRobot(lockersOfPlentyOfCapacity);
+        Bag savedBag = new Bag();
+        lockerRobot.saveBag(savedBag);
+
+        assertThrows(InvalidTicketException.class, () -> {
+            lockerRobot.getBag(null);
+        }).getMessage();
+    }
+
+    @Test
+    void should_throw_invalid_ticket_exception_with_invalid_ticket_for_super_robot_to_get_bag() {
+        List<Locker> lockersOfPlentyOfCapacity = createLockersOfPlentyOfCapacity(1);
+        SuperLockerRobot lockerRobot = new SuperLockerRobot(lockersOfPlentyOfCapacity);
+        Bag savedBag = new Bag();
+        lockerRobot.saveBag(savedBag);
+
+        Ticket invalidTicket = new Ticket();
+
+        assertThrows(InvalidTicketException.class, () -> {
+            lockerRobot.getBag(invalidTicket);
+        }).getMessage();
     }
 }
