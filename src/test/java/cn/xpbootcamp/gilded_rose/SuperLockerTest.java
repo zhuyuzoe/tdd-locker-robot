@@ -6,9 +6,11 @@ import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createFullLocker;
+import static cn.xpbootcamp.gilded_rose.LockersFactory.createLockersOfCapacityLeft;
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createLockersOfPlentyOfCapacity;
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createSpecificSizeLockerWithSomeCapacityLeft;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -151,5 +153,28 @@ public class SuperLockerTest {
         assertThrows(InvalidTicketException.class, () -> {
             lockerRobot.getBag(invalidTicket);
         }).getMessage();
+    }
+
+    @Test
+    void should_get_corresponded_bag_when_robot_save_bag_into_lockers_of_20_30_30_percentage_capacity_left_in_order_successfully_and_give_robot_corresponded_ticket() {
+        // Given
+        List<Locker> lockers = new ArrayList<>();
+
+        Locker twentyPercentCapacityLeft = createSpecificSizeLockerWithSomeCapacityLeft(100, 20);
+        Locker thirtyPercentCapacityLeftOne = createSpecificSizeLockerWithSomeCapacityLeft(10, 3);
+        Locker thirtyPercentCapacityLeftAnother = createSpecificSizeLockerWithSomeCapacityLeft(10, 3);
+        lockers.add(twentyPercentCapacityLeft);
+        lockers.add(thirtyPercentCapacityLeftOne);
+        lockers.add(thirtyPercentCapacityLeftAnother);
+
+        Bag savedBag = new Bag();
+        SuperLockerRobot lockerRobot = new SuperLockerRobot(lockers);
+
+        // When
+        Ticket ticket = lockerRobot.saveBag(savedBag);
+
+        // Then
+        Bag fetchedBag = lockerRobot.getBag(ticket);
+        assertSame(savedBag, fetchedBag);
     }
 }
