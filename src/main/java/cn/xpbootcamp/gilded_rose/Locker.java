@@ -1,6 +1,8 @@
 package cn.xpbootcamp.gilded_rose;
 
 import cn.xpbootcamp.gilded_rose.exception.InsufficientLockersException;
+import cn.xpbootcamp.gilded_rose.exception.InvalidBagException;
+import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 
 import java.util.HashMap;
 
@@ -20,11 +22,14 @@ public class Locker {
         return locker;
     }
 
-    public void saveBagIntoLocker(Bag bag, Ticket ticket) {
+    public Ticket saveBagIntoLocker(Bag bag) {
         if (isLockerFull()) {
             throw new InsufficientLockersException("Insufficient empty lockers.");
         }
+        validateBag(bag);
+        Ticket ticket = new Ticket();
         locker.put(ticket, bag);
+        return ticket;
     }
 
     public boolean isLockerFull() {
@@ -36,6 +41,23 @@ public class Locker {
     }
 
     Bag getBagFromLocker(Ticket ticket) {
-        return locker.remove(ticket);
+        validateTicket(ticket);
+        if (locker.containsKey(ticket)) {
+            return locker.remove(ticket);
+        }
+
+        throw new InvalidTicketException("Please insert a valid ticket.");
+    }
+
+    private void validateTicket(Ticket ticket) {
+        if (ticket == null) {
+            throw new InvalidTicketException("Please insert a ticket to get your bag.");
+        }
+    }
+
+    private void validateBag(Bag bag) {
+        if (bag == null) {
+            throw new InvalidBagException("Please put a bag into the cabinet.");
+        }
     }
 }

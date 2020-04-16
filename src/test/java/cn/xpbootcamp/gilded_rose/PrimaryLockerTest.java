@@ -7,28 +7,28 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cn.xpbootcamp.gilded_rose.CabinetFactory.createCabinetWithLockersOfPlentyOfCapacity;
-import static cn.xpbootcamp.gilded_rose.CabinetFactory.createEmptyLocker;
-import static cn.xpbootcamp.gilded_rose.CabinetFactory.createFullLocker;
+import static cn.xpbootcamp.gilded_rose.LockersFactory.createEmptyLocker;
+import static cn.xpbootcamp.gilded_rose.LockersFactory.createFullLocker;
+import static cn.xpbootcamp.gilded_rose.LockersFactory.createLockersOfPlentyOfCapacity;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RobotSaveAndGetBagTest {
+public class PrimaryLockerTest {
 
     private final int CABINET_DEFAULT_CAPACITY = 10;
 
     @Test
     void should_get_the_ticket_when_the_robot_help_to_save_bag_into_locker() {
-        Cabinet cabinet = createCabinetWithLockersOfPlentyOfCapacity(1);
+        List<Locker> lockersOfPlentyOfCapacity = createLockersOfPlentyOfCapacity(1);
         Bag bag = new Bag();
-        LockerRobot lockerRobot = new LockerRobot(cabinet);
+        PrimaryLockerRobot lockerRobot = new PrimaryLockerRobot(lockersOfPlentyOfCapacity);
         Ticket ticket = lockerRobot.saveBag(bag);
         assertNotNull(ticket);
     }
 
     @Test
     void should_get_error_message_when_the_robot_help_to_save_nothing_into_locker() {
-        Cabinet cabinet = createCabinetWithLockersOfPlentyOfCapacity(1);
-        LockerRobot lockerRobot = new LockerRobot(cabinet);
+        List<Locker> lockersOfPlentyOfCapacity = createLockersOfPlentyOfCapacity(1);
+        PrimaryLockerRobot lockerRobot = new PrimaryLockerRobot(lockersOfPlentyOfCapacity);
         String message = assertThrows(InvalidBagException.class, () -> {
             lockerRobot.saveBag(null);
         }).getMessage();
@@ -37,8 +37,8 @@ public class RobotSaveAndGetBagTest {
 
     @Test
     void should_get_corresponded_bag_when_give_right_ticket_to_the_robot() {
-        Cabinet cabinet = createCabinetWithLockersOfPlentyOfCapacity(1);
-        LockerRobot lockerRobot = new LockerRobot(cabinet);
+        List<Locker> lockersOfPlentyOfCapacity = createLockersOfPlentyOfCapacity(1);
+        PrimaryLockerRobot lockerRobot = new PrimaryLockerRobot(lockersOfPlentyOfCapacity);
         Bag savedBag = new Bag();
         Ticket ticket = lockerRobot.saveBag(savedBag);
 
@@ -48,8 +48,8 @@ public class RobotSaveAndGetBagTest {
 
     @Test
     void should_get_error_message_without_ticket_for_robot_to_get_bag() {
-        Cabinet cabinet = createCabinetWithLockersOfPlentyOfCapacity(1);
-        LockerRobot lockerRobot = new LockerRobot(cabinet);
+        List<Locker> lockersOfPlentyOfCapacity = createLockersOfPlentyOfCapacity(1);
+        PrimaryLockerRobot lockerRobot = new PrimaryLockerRobot(lockersOfPlentyOfCapacity);
         Bag savedBag = new Bag();
         lockerRobot.saveBag(savedBag);
 
@@ -61,8 +61,8 @@ public class RobotSaveAndGetBagTest {
 
     @Test
     void should_get_error_message_with_invalid_ticket_for_robot_to_get_bag() {
-        Cabinet cabinet = createCabinetWithLockersOfPlentyOfCapacity(1);
-        LockerRobot lockerRobot = new LockerRobot(cabinet);
+        List<Locker> lockersOfPlentyOfCapacity = createLockersOfPlentyOfCapacity(1);
+        PrimaryLockerRobot lockerRobot = new PrimaryLockerRobot(lockersOfPlentyOfCapacity);
         Bag savedBag = new Bag();
         lockerRobot.saveBag(savedBag);
 
@@ -76,11 +76,11 @@ public class RobotSaveAndGetBagTest {
 
     @Test
     void should_get_error_message_with_used_ticket_for_robot_to_get_bag() {
-        Cabinet cabinet = createCabinetWithLockersOfPlentyOfCapacity(1);
-        LockerRobot lockerRobot = new LockerRobot(cabinet);
+        List<Locker> lockersOfPlentyOfCapacity = createLockersOfPlentyOfCapacity(1);
+        PrimaryLockerRobot lockerRobot = new PrimaryLockerRobot(lockersOfPlentyOfCapacity);
         Bag savedBag = new Bag();
         Ticket usedTicket = lockerRobot.saveBag(savedBag);
-        cabinet.get(usedTicket);
+        lockerRobot.getBag(usedTicket);
 
 
         String message = assertThrows(InvalidTicketException.class, () -> {
@@ -93,9 +93,8 @@ public class RobotSaveAndGetBagTest {
     void should_throw_if_cabinet_lockers_are_full() {
         List<Locker> lockers = new ArrayList<>();
         lockers.add(createFullLocker(CABINET_DEFAULT_CAPACITY));
-        Cabinet fullCabinet = new Cabinet(lockers);
         Bag savedBag = new Bag();
-        LockerRobot lockerRobot = new LockerRobot(fullCabinet);
+        PrimaryLockerRobot lockerRobot = new PrimaryLockerRobot(lockers);
 
         InsufficientLockersException error = assertThrows(
                 InsufficientLockersException.class,
@@ -105,13 +104,13 @@ public class RobotSaveAndGetBagTest {
 
     @Test
     void should_get_ticket_from_first_locker_when_cabinet_with_two_empty_lockers() {
-        Cabinet emptyCabinet = createCabinetWithLockersOfPlentyOfCapacity(2);
+        List<Locker> lockersOfPlentyOfCapacity = createLockersOfPlentyOfCapacity(2);
         Bag savedBag = new Bag();
 
-        LockerRobot lockerRobot = new LockerRobot(emptyCabinet);
+        PrimaryLockerRobot lockerRobot = new PrimaryLockerRobot(lockersOfPlentyOfCapacity);
         Ticket ticket = lockerRobot.saveBag(savedBag);
 
-        Locker firstLocker = emptyCabinet.getLockerWithOrder(1);
+        Locker firstLocker = lockerRobot.getLockerWithOrder(1);
         Bag fetchedBag = firstLocker.getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
     }
@@ -125,13 +124,12 @@ public class RobotSaveAndGetBagTest {
         lockers.add(firstFullLocker);
         lockers.add(secondEmptyLocker);
 
-        Cabinet cabinet = new Cabinet(lockers);
         Bag savedBag = new Bag();
 
-        LockerRobot lockerRobot = new LockerRobot(cabinet);
+        PrimaryLockerRobot lockerRobot = new PrimaryLockerRobot(lockers);
         Ticket ticket = lockerRobot.saveBag(savedBag);
 
-        Locker secondLocker = cabinet.getLockerWithOrder(2);
+        Locker secondLocker = lockerRobot.getLockerWithOrder(2);
         Bag fetchedBag = secondLocker.getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
 
@@ -146,10 +144,9 @@ public class RobotSaveAndGetBagTest {
         lockers.add(firstFullLocker);
         lockers.add(secondFullLocker);
 
-        Cabinet cabinet = new Cabinet(lockers);
         Bag savedBag = new Bag();
 
-        LockerRobot lockerRobot = new LockerRobot(cabinet);
+        PrimaryLockerRobot lockerRobot = new PrimaryLockerRobot(lockers);
         InsufficientLockersException error = assertThrows(
                 InsufficientLockersException.class,
                 () ->  lockerRobot.saveBag(savedBag));

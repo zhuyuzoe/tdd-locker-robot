@@ -3,15 +3,15 @@ package cn.xpbootcamp.gilded_rose;
 import java.util.ArrayList;
 import java.util.List;
 
-class CabinetFactory {
+class LockersFactory {
     private static int DEFAULT_CAPACITY = 10;
 
-    static Cabinet createCabinetWithLockersOfPlentyOfCapacity(int numberOfLockers) {
+    static List<Locker> createLockersOfPlentyOfCapacity(int numberOfLockers) {
         List<Locker> lockers = new ArrayList<>();
         for (int i = 0; i < numberOfLockers; i++) {
             lockers.add(createEmptyLocker());
         }
-        return new Cabinet(lockers);
+        return lockers;
     }
 
     static Locker createEmptyLocker() {
@@ -21,7 +21,7 @@ class CabinetFactory {
     static Locker createFullLocker(int defaultCapacity) {
         Locker locker = new Locker(defaultCapacity);
         for (int i = 0; i < defaultCapacity; i++) {
-            locker.saveBagIntoLocker(new Bag(), new Ticket());
+            locker.saveBagIntoLocker(new Bag());
         }
         return locker;
     }
@@ -30,16 +30,16 @@ class CabinetFactory {
         Locker locker = new Locker(DEFAULT_CAPACITY);
         int savedCapacity = 0;
         while (leftCapacity < DEFAULT_CAPACITY - savedCapacity) {
-            locker.saveBagIntoLocker(new Bag(), new Ticket());
+            locker.saveBagIntoLocker(new Bag());
             savedCapacity++;
         }
         return locker;
     }
 
-    static Cabinet createCabinetWithLockersOfCapacityLeft(ArrayList<Integer> leftCapacity) {
+    static List<Locker> createLockersOfCapacityLeft(ArrayList<Integer> leftCapacity) {
         List<Locker> lockers = new ArrayList<>();
         leftCapacity.forEach(capacity -> lockers.add(createLockerWithSomeCapacityLeft(capacity)));
 
-        return new Cabinet(lockers);
+        return lockers;
     }
 }
