@@ -73,12 +73,12 @@ public class SuperLockerTest {
         // Given
         List<Locker> lockers = new ArrayList<>();
 
-        Locker tenPercentCapacityLeft = createSpecificSizeLockerWithSomeCapacityLeft(100, 20);
-        Locker twentyPercentCapacityLeft = createSpecificSizeLockerWithSomeCapacityLeft(10, 3);
-        Locker thirtyPercentCapacityLeft = createSpecificSizeLockerWithSomeCapacityLeft(10, 3);
-        lockers.add(tenPercentCapacityLeft);
+        Locker twentyPercentCapacityLeft = createSpecificSizeLockerWithSomeCapacityLeft(100, 20);
+        Locker thirtyPercentCapacityLeftOne = createSpecificSizeLockerWithSomeCapacityLeft(10, 3);
+        Locker thirtyPercentCapacityLeftAnother = createSpecificSizeLockerWithSomeCapacityLeft(10, 3);
         lockers.add(twentyPercentCapacityLeft);
-        lockers.add(thirtyPercentCapacityLeft);
+        lockers.add(thirtyPercentCapacityLeftOne);
+        lockers.add(thirtyPercentCapacityLeftAnother);
 
         Bag savedBag = new Bag();
         SuperLockerRobot lockerRobot = new SuperLockerRobot(lockers);
@@ -88,6 +88,29 @@ public class SuperLockerTest {
 
         // Then
         Bag fetchedBag = lockerRobot.getLockerWithOrder(2).getBagFromLocker(ticket);
+        assertSame(savedBag, fetchedBag);
+    }
+
+    @Test
+    void should_get_ticket_from_first_locker_when_three_lockers_are_of_20_20_20_percentage_capacity_left_in_order() {
+        // Given
+        List<Locker> lockers = new ArrayList<>();
+
+        Locker twentyPercentCapacityLeftFirst = createSpecificSizeLockerWithSomeCapacityLeft(10, 2);
+        Locker twentyPercentCapacityLeftSecond = createSpecificSizeLockerWithSomeCapacityLeft(100, 20);
+        Locker twentyPercentCapacityLeftThird = createSpecificSizeLockerWithSomeCapacityLeft(1000, 200);
+        lockers.add(twentyPercentCapacityLeftFirst);
+        lockers.add(twentyPercentCapacityLeftSecond);
+        lockers.add(twentyPercentCapacityLeftThird);
+
+        Bag savedBag = new Bag();
+        SuperLockerRobot lockerRobot = new SuperLockerRobot(lockers);
+
+        // When
+        Ticket ticket = lockerRobot.saveBag(savedBag);
+
+        // Then
+        Bag fetchedBag = lockerRobot.getLockerWithOrder(1).getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
     }
 }
