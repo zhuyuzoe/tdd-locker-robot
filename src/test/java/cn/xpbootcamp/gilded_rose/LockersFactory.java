@@ -52,4 +52,8 @@ class LockersFactory {
 
         return lockers;
     }
+
+    static Locker getLockerWithOrder(List<Locker> lockers, int order) {
+        return lockers.get(order - 1);
+    }
 }

@@ -60,10 +60,6 @@ public class LockerRobot {
         return lockers.stream().filter(locker -> !locker.isLockerFull()).findFirst();
     }
 
-    public Locker getLockerWithOrder(int order) {
-        return lockers.get(order - 1);
-    }
-
     public Optional<Locker> getLockerWithMaxCapacityLeftInOrder(List<Locker> lockers) {
         return lockers.stream().filter(locker -> locker.leftCapacity() > 0).findFirst();
     }

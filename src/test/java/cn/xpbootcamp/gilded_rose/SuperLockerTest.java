@@ -6,14 +6,12 @@ import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createFullLocker;
-import static cn.xpbootcamp.gilded_rose.LockersFactory.createLockersOfCapacityLeft;
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createLockersOfPlentyOfCapacity;
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createSpecificSizeLockerWithSomeCapacityLeft;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static cn.xpbootcamp.gilded_rose.LockersFactory.getLockerWithOrder;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -68,7 +66,7 @@ public class SuperLockerTest {
         Ticket ticket = lockerRobot.saveBag(savedBag);
 
         // Then
-        Bag fetchedBag = lockerRobot.getLockerWithOrder(3).getBagFromLocker(ticket);
+        Bag fetchedBag = getLockerWithOrder(lockers,3).getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
     }
 
@@ -91,7 +89,7 @@ public class SuperLockerTest {
         Ticket ticket = lockerRobot.saveBag(savedBag);
 
         // Then
-        Bag fetchedBag = lockerRobot.getLockerWithOrder(2).getBagFromLocker(ticket);
+        Bag fetchedBag = getLockerWithOrder(lockers,2).getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
     }
 
@@ -114,7 +112,7 @@ public class SuperLockerTest {
         Ticket ticket = lockerRobot.saveBag(savedBag);
 
         // Then
-        Bag fetchedBag = lockerRobot.getLockerWithOrder(1).getBagFromLocker(ticket);
+        Bag fetchedBag = getLockerWithOrder(lockers,1).getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
     }
 

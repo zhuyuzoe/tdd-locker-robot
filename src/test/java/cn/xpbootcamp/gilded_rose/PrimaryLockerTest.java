@@ -10,6 +10,7 @@ import java.util.List;
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createEmptyLocker;
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createFullLocker;
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createLockersOfPlentyOfCapacity;
+import static cn.xpbootcamp.gilded_rose.LockersFactory.getLockerWithOrder;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PrimaryLockerTest {
@@ -110,7 +111,7 @@ public class PrimaryLockerTest {
         PrimaryLockerRobot lockerRobot = new PrimaryLockerRobot(lockersOfPlentyOfCapacity);
         Ticket ticket = lockerRobot.saveBag(savedBag);
 
-        Locker firstLocker = lockerRobot.getLockerWithOrder(1);
+        Locker firstLocker = getLockerWithOrder(lockersOfPlentyOfCapacity,1);
         Bag fetchedBag = firstLocker.getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
     }
@@ -129,7 +130,7 @@ public class PrimaryLockerTest {
         PrimaryLockerRobot lockerRobot = new PrimaryLockerRobot(lockers);
         Ticket ticket = lockerRobot.saveBag(savedBag);
 
-        Locker secondLocker = lockerRobot.getLockerWithOrder(2);
+        Locker secondLocker =  getLockerWithOrder(lockers,2);
         Bag fetchedBag = secondLocker.getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
 
