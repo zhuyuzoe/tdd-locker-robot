@@ -30,10 +30,9 @@ public class PrimaryLockerTest {
     void should_get_error_message_when_the_robot_help_to_save_nothing_into_locker() {
         List<Locker> lockersOfPlentyOfCapacity = createLockersOfPlentyOfCapacity(1);
         PrimaryLockerRobot lockerRobot = new PrimaryLockerRobot(lockersOfPlentyOfCapacity);
-        String message = assertThrows(InvalidBagException.class, () -> {
+        assertThrows(InvalidBagException.class, () -> {
             lockerRobot.saveBag(null);
         }).getMessage();
-        assertEquals("Please put a bag into the cabinet.", message);
     }
 
     @Test
@@ -54,10 +53,9 @@ public class PrimaryLockerTest {
         Bag savedBag = new Bag();
         lockerRobot.saveBag(savedBag);
 
-        String message = assertThrows(InvalidTicketException.class, () -> {
+        assertThrows(InvalidTicketException.class, () -> {
             lockerRobot.getBag(null);
         }).getMessage();
-        assertEquals("Please insert a ticket to get your bag.", message);
     }
 
     @Test
@@ -69,10 +67,9 @@ public class PrimaryLockerTest {
 
         Ticket invalidTicket = new Ticket();
 
-        String message = assertThrows(InvalidTicketException.class, () -> {
+        assertThrows(InvalidTicketException.class, () -> {
             lockerRobot.getBag(invalidTicket);
         }).getMessage();
-        assertEquals("Please insert a valid ticket.", message);
     }
 
     @Test
@@ -84,10 +81,9 @@ public class PrimaryLockerTest {
         lockerRobot.getBag(usedTicket);
 
 
-        String message = assertThrows(InvalidTicketException.class, () -> {
+        assertThrows(InvalidTicketException.class, () -> {
             lockerRobot.getBag(usedTicket);
         }).getMessage();
-        assertEquals("Please insert a valid ticket.", message);
     }
 
     @Test
@@ -97,10 +93,9 @@ public class PrimaryLockerTest {
         Bag savedBag = new Bag();
         PrimaryLockerRobot lockerRobot = new PrimaryLockerRobot(lockers);
 
-        InsufficientLockersException error = assertThrows(
+        assertThrows(
                 InsufficientLockersException.class,
                 () ->  lockerRobot.saveBag(savedBag));
-        assertEquals("Insufficient empty lockers.", error.getMessage());
     }
 
     @Test
@@ -148,10 +143,9 @@ public class PrimaryLockerTest {
         Bag savedBag = new Bag();
 
         PrimaryLockerRobot lockerRobot = new PrimaryLockerRobot(lockers);
-        InsufficientLockersException error = assertThrows(
+        assertThrows(
                 InsufficientLockersException.class,
                 () ->  lockerRobot.saveBag(savedBag));
-        assertEquals("Insufficient empty lockers.", error.getMessage());
 
     }
 }

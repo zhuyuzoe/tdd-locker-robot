@@ -9,7 +9,6 @@ import java.util.List;
 
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createLockersOfCapacityLeft;
 import static cn.xpbootcamp.gilded_rose.LockersFactory.getLockerWithOrder;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -26,7 +25,7 @@ public class SmartLockerTest {
         Ticket ticket = lockerRobot.saveBag(savedBag);
 
         // Then
-        Bag fetchedBag = getLockerWithOrder(lockersOfCapacityLeft,1).getBagFromLocker(ticket);
+        Bag fetchedBag = getLockerWithOrder(lockersOfCapacityLeft, 1).getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
     }
 
@@ -41,7 +40,7 @@ public class SmartLockerTest {
         Ticket ticket = lockerRobot.saveBag(savedBag);
 
         // Then
-        Bag fetchedBag = getLockerWithOrder(lockersOfCapacityLeft,2).getBagFromLocker(ticket);
+        Bag fetchedBag = getLockerWithOrder(lockersOfCapacityLeft, 2).getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
     }
 
@@ -56,7 +55,7 @@ public class SmartLockerTest {
         Ticket ticket = lockerRobot.saveBag(savedBag);
 
         // Then
-        Bag fetchedBag = getLockerWithOrder(lockersOfCapacityLeft,1).getBagFromLocker(ticket);
+        Bag fetchedBag = getLockerWithOrder(lockersOfCapacityLeft, 1).getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
     }
 
@@ -71,7 +70,7 @@ public class SmartLockerTest {
         Ticket ticket = lockerRobot.saveBag(savedBag);
 
         // Then
-        Bag fetchedBag = getLockerWithOrder(lockersOfCapacityLeft,3).getBagFromLocker(ticket);
+        Bag fetchedBag = getLockerWithOrder(lockersOfCapacityLeft, 3).getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
     }
 
@@ -86,7 +85,7 @@ public class SmartLockerTest {
         Ticket ticket = lockerRobot.saveBag(savedBag);
 
         // Then
-        Bag fetchedBag = getLockerWithOrder(lockersOfCapacityLeft,2).getBagFromLocker(ticket);
+        Bag fetchedBag = getLockerWithOrder(lockersOfCapacityLeft, 2).getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
     }
 
@@ -101,7 +100,7 @@ public class SmartLockerTest {
         Ticket ticket = lockerRobot.saveBag(savedBag);
 
         // Then
-        Bag fetchedBag = getLockerWithOrder(lockersOfCapacityLeft,1).getBagFromLocker(ticket);
+        Bag fetchedBag = getLockerWithOrder(lockersOfCapacityLeft, 1).getBagFromLocker(ticket);
         assertSame(savedBag, fetchedBag);
     }
 
@@ -131,10 +130,9 @@ public class SmartLockerTest {
         Ticket ticket = lockerRobot.saveBag(savedBag);
 
         // Then
-        String message = assertThrows(InvalidTicketException.class, () -> {
+        assertThrows(InvalidTicketException.class, () -> {
             lockerRobot.getBag(null);
         }).getMessage();
-        assertEquals("Please insert a ticket to get your bag.", message);
     }
 
     @Test
@@ -149,10 +147,9 @@ public class SmartLockerTest {
 
         // Then
         Ticket invalidTicket = new Ticket();
-        String message = assertThrows(InvalidTicketException.class, () -> {
+        assertThrows(InvalidTicketException.class, () -> {
             lockerRobot.getBag(invalidTicket);
         }).getMessage();
-        assertEquals("Please insert a valid ticket.", message);
     }
 
     @Test

@@ -7,30 +7,20 @@ import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 import java.util.List;
 import java.util.Optional;
 
-public class LockerRobot {
-    private int lockerOrderIndex;
-    private List<Locker> lockers;
+public abstract class LockerRobot {
+    protected int lockerOrderIndex;
+    protected List<Locker> lockers;
 
     public LockerRobot(List<Locker> lockers) {
         this.lockers = lockers;
     }
 
-    public Ticket saveBag(Bag bag) {
-        validateBag(bag);
-        validateCabinetLeftCapacity();
+    abstract Ticket saveBag(Bag bag);
 
-        Optional<Locker> savedLocker = getLockerWithMaxCapacityLeftInOrder(this.lockers);
-        lockerOrderIndex = lockers.indexOf(lockers.size() == 1 ? lockers.get(0) : savedLocker.get());
-
-        Ticket ticket = lockers.size() == 1 ? lockers.get(0).saveBagIntoLocker(bag) : savedLocker.get().saveBagIntoLocker(bag);
-
-        return ticket;
-    }
-
-    private void validateCabinetLeftCapacity() {
+    protected void validateCabinetLeftCapacity() {
         Optional<Locker> firstEmptyLocker = getFirstEmptyLocker();
         if (!firstEmptyLocker.isPresent()) {
-            throw new InsufficientLockersException("Insufficient empty lockers.");
+            throw new InsufficientLockersException();
         }
     }
 
@@ -41,27 +31,23 @@ public class LockerRobot {
             return lockers.get(lockerOrderIndex).getBagFromLocker(ticket);
         }
 
-        throw new InvalidTicketException("Please insert a valid ticket.");
+        throw new InvalidTicketException();
     }
 
     private void validateTicket(Ticket ticket) {
         if (ticket == null) {
-            throw new InvalidTicketException("Please insert a ticket to get your bag.");
+            throw new InvalidTicketException();
         }
     }
 
-    private void validateBag(Bag bag) {
+    protected void validateBag(Bag bag) {
         if (bag == null) {
-            throw new InvalidBagException("Please put a bag into the cabinet.");
+            throw new InvalidBagException();
         }
     }
 
     private Optional<Locker> getFirstEmptyLocker() {
         return lockers.stream().filter(locker -> !locker.isLockerFull()).findFirst();
-    }
-
-    public Optional<Locker> getLockerWithMaxCapacityLeftInOrder(List<Locker> lockers) {
-        return lockers.stream().filter(locker -> locker.leftCapacity() > 0).findFirst();
     }
 
 }

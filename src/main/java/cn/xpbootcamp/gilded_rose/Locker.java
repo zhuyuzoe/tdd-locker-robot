@@ -24,7 +24,7 @@ public class Locker {
 
     public Ticket saveBagIntoLocker(Bag bag) {
         if (isLockerFull()) {
-            throw new InsufficientLockersException("Insufficient empty lockers.");
+            throw new InsufficientLockersException();
         }
         validateBag(bag);
         Ticket ticket = new Ticket();
@@ -50,18 +50,18 @@ public class Locker {
             return locker.remove(ticket);
         }
 
-        throw new InvalidTicketException("Please insert a valid ticket.");
+        throw new InvalidTicketException();
     }
 
     private void validateTicket(Ticket ticket) {
         if (ticket == null) {
-            throw new InvalidTicketException("Please insert a ticket to get your bag.");
+            throw new InvalidTicketException();
         }
     }
 
     private void validateBag(Bag bag) {
         if (bag == null) {
-            throw new InvalidBagException("Please put a bag into the cabinet.");
+            throw new InvalidBagException();
         }
     }
 }

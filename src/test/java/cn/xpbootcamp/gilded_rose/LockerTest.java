@@ -5,11 +5,10 @@ import cn.xpbootcamp.gilded_rose.exception.InvalidBagException;
 import cn.xpbootcamp.gilded_rose.exception.InvalidTicketException;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static cn.xpbootcamp.gilded_rose.LockersFactory.createEmptyLocker;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LockerTest {
     @Test
@@ -22,10 +21,9 @@ public class LockerTest {
     @Test
     void should_throw_with_message_when_put_nothing_in_the_cabinet() {
         Locker emptyLocker = createEmptyLocker();
-        String message = assertThrows(InvalidBagException.class, () -> {
+        assertThrows(InvalidBagException.class, () -> {
             emptyLocker.saveBagIntoLocker(null);
         }).getMessage();
-        assertEquals("Please put a bag into the cabinet.", message);
     }
 
     @Test
@@ -43,10 +41,9 @@ public class LockerTest {
     void should_throw_with_message_if_no_ticket_provided() {
         Locker emptyLocker = createEmptyLocker();
         emptyLocker.saveBagIntoLocker(new Bag());
-        String message = assertThrows(
+        assertThrows(
                 InvalidTicketException.class,
                 () -> emptyLocker.getBagFromLocker(null)).getMessage();
-        assertEquals("Please insert a ticket to get your bag.", message);
     }
 
     @Test
@@ -56,11 +53,10 @@ public class LockerTest {
 
         Ticket invalidTicket = new Ticket();
 
-        String message = assertThrows(InvalidTicketException.class, () -> {
+        assertThrows(InvalidTicketException.class, () -> {
             emptyLocker.getBagFromLocker(invalidTicket);
         }).getMessage();
 
-        assertEquals("Please insert a valid ticket.", message);
     }
 
     @Test
@@ -69,11 +65,10 @@ public class LockerTest {
         Ticket usedTicket = emptyLocker.saveBagIntoLocker(new Bag());
         emptyLocker.getBagFromLocker(usedTicket);
 
-        String message = assertThrows(InvalidTicketException.class, () -> {
+        assertThrows(InvalidTicketException.class, () -> {
             emptyLocker.getBagFromLocker(usedTicket);
         }).getMessage();
 
-        assertEquals("Please insert a valid ticket.", message);
     }
 
     @Test
@@ -91,12 +86,11 @@ public class LockerTest {
         Locker locker = new Locker(1);
         locker.saveBagIntoLocker(new Bag());
 
-        String message = assertThrows(
+        assertThrows(
                 InsufficientLockersException.class,
                 () -> locker.saveBagIntoLocker(new Bag())
         ).getMessage();
 
-        assertEquals("Insufficient empty lockers.", message);
     }
 
     @Test
